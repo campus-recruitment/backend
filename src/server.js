@@ -3,7 +3,7 @@ const helmet = require('helmet')
 const cors = require('cors')
 require('./dbContext/mongo');
 
-const example = require('./controllers/example');
+const Student = require('./routes/student');
 
 const PORT =  5000
 
@@ -19,6 +19,6 @@ app.get('/', (req, res) => {
     res.status(200).send('All is well!')
 })
 
-app.use('/example', example)
+app.use(Student)
 
 app.listen(PORT, () => console.log(`App listening at http://localhost:${PORT}`))
