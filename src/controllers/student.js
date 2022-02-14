@@ -1,4 +1,3 @@
-//@ts-check
 
 const Student = require('../models/student');
 

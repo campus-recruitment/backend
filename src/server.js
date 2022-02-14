@@ -4,6 +4,8 @@ const cors = require('cors')
 require('./dbContext/mongo');
 
 const Student = require('./routes/student');
+const User = require('./routes/users')
+const auth = require('./middlewares/auth');
 
 const PORT =  5000
 
@@ -20,5 +22,8 @@ app.get('/', (req, res) => {
 })
 
 app.use(Student)
+app.use(User)
+
+app.use('/api', auth)
 
 app.listen(PORT, () => console.log(`App listening at http://localhost:${PORT}`))
