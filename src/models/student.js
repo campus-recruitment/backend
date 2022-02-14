@@ -2,38 +2,32 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const Student = new Schema({
-    studentId: {
-        type: mongoose.Types.ObjectId
-    },
+    
     fullName: {
         type: String,
-        required: true
+        required: true,
     },
     rollno: {
-        type: String,
-        unique: true,
-        required: true
+        type: String
     },
     department: {
-        type: String,
-        required: true
+        type: String
     },
     semester: {
-        type: Number,
-        required: true
+        type: Number
     },
     graduationYear: {
-        type: Number,
-        required: true
+        type: Number
     },
-    emailId: {
+    email: {
         type: String,
         unique: true,
-        required: true
+        required: true,
+        index: true
     },
-    password: {
-        type: String,
-        required: true
+    isAdmin: {
+        Type: Boolean,
+        default: false
     },
     phoneNumber: {
         type: Number
@@ -102,10 +96,7 @@ const Student = new Schema({
             startDate: Date,
             endDate: Date
         }
-    ],
-    signUpDate: {
-        type: Date
-    },
+    ]
     // savedVisitors: {
     //     type: [mongoose.Types.ObjectId],
     //     ref: "Visitors",
