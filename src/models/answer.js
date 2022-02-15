@@ -7,12 +7,11 @@ const Answer = mongoose.model('Answer', {
 
 	},
 	author:{
-		type:[mongoose.Types.ObjectId],
-		default:[],
-		
+		type: mongoose.Schena.Types.ObjectId,
+		ref: "User"
 	},
 	answer:{
-		type:[mongoose.Type.ObjectId],
+		type:[mongoose.Schema.Types.ObjectId],
 		ref:"Answer"
 	},
 	date:{

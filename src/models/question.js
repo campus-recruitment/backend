@@ -2,22 +2,20 @@ const mongoose = require('mongoose');
 
 const Question = mongoose.model('Question', {
 	question:{
-		type:String,
-		default:""
-
+		type: String,
+		default: ""
 	},
 	author:{
-		type:[mongoose.Types.ObjectId],
-		default:[],
-		ref:"Student"
+		type: mongoose.Schema.Types.ObjectId,
+		ref: "Student"
 	},
 	answer:{
-		type:[mongoose.Type.ObjectId],
-		ref:"Answer"
+		type: mongoose.Schema.Types.ObjectId,
+		ref: "Answer"
 	},
 	date:{
-		type:Date,
-		default:new Date()
+		type: Date,
+		default: new Date()
 	}
 });
 
