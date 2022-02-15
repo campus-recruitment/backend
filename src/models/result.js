@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Student = require('./student');
  
 const Result = mongoose.model('Result',
  {
@@ -8,10 +9,11 @@ const Result = mongoose.model('Result',
   },
   students :{
        type: [mongoose.Types.ObjectId],
-       ref: "studnets"
+       ref: "Student"
   },
    date :{
-       type: Date
+       type: Date,
+       default: new Date()
    }
  });
  
