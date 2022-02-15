@@ -1,14 +1,13 @@
 const mongoose = require('mongoose');
-const Student = require('./student');
  
 const Result = mongoose.model('Result',
  {
    visitors :{
-       type: [mongoose.Types.ObjectId],
+       type: mongoose.Schema.Types.ObjectId,
        ref: "Visitors"
   },
   students :{
-       type: [mongoose.Types.ObjectId],
+       type: mongoose.Schema.Types.ObjectId,
        ref: "Student"
   },
    date :{
