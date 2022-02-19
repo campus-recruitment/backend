@@ -1,31 +1,31 @@
-const { Notice } = require('express');
-const notice = Notice();
+const { express } = require('express');
+const router = Router();
 
 const Notice = require('../models/Notice');
 
-notice.get('getallnotice/', async (req, res) => {
-    const Notice = await Notice.find().exec();
+router.get('getAllNotice/', async (req, res) => {
+    const notice = await Notice.find().exec();
     res.status(200).send(notice);
 })
 
-notice.get('getallnotice/:id', async (req, res) => {
-    const notice = await notice.findById(req.params.id).exec();
+router.get('getAllNotice/:id', async (req, res) => {
+    const notice = await Notice.findById(req.params.id).exec();
     res.status(200).send(notice);
 })
 
-notice.post('createnotice/', async (req, res) => {
-    const notice = await notice.create(req.body);
+router.post('createNotice/', async (req, res) => {
+    const notice = await Notice.create(req.body);
     res.status(200).send(notice);
 })
 
-notice.put('update/:id', async (req, res) => {
-    const notice = await notice.findByIdAndUpdate(req.params.id, req.body);
+router.put('updateNotice/:id', async (req, res) => {
+    const notice = await Notice.findByIdAndUpdate(req.params.id, req.body);
     res.status(200).send(notice);
 })
 
-notice.delete('delete/:id', async (req, res) => {
-    const notice = await notice.findByIdAndDelete(req.params.id);
+router.delete('deleteNotice/:id', async (req, res) => {
+    const notice = await Notice.findByIdAndDelete(req.params.id);
     res.status(200).send(notice);
 })
 
-module.exports = notice;
+module.exports = router;
