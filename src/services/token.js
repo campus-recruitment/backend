@@ -6,9 +6,11 @@ const JWT_SECRET = process.env.JWT_SECRET
 
 function sign(user) {
     return new Promise((resolve, reject) => {
+        // console.log(user)
         jwtSign({
             given_name: user.fullName,
-            email: user.email
+            email: user.email,
+            user_id: user.userId
         }, JWT_SECRET, {
             issuer: 'T&P Cell',
             audience: 'Frontend',

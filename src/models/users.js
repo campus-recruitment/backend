@@ -1,6 +1,11 @@
 const mongoose = require('mongoose');
 
 const User = mongoose.model('User', {
+    userId: {
+        type: String,
+        index: true,
+        unique: true
+    },
     fullName: {
         type: String,
         required: true
@@ -14,7 +19,9 @@ const User = mongoose.model('User', {
     password: {
         type: String,
         required: true
-    }
+    },
+    resetToken: String,
+    expireToken: Date
 })
 
 module.exports = User

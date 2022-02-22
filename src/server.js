@@ -21,9 +21,9 @@ app.get('/', (req, res) => {
     res.status(200).send('All is well!')
 })
 
-app.use(Student)
 app.use(User)
 
 app.use('/api', auth)
+app.use(Student)
 
 app.listen(PORT, () => console.log(`App listening at http://localhost:${PORT}`))

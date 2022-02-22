@@ -16,7 +16,8 @@ module.exports.getAllStudents = async (req, res) => {
 
 module.exports.getStudentsById = async (req, res) => {
     try {
-        const student = await Student.findById(req.params._id);
+        const student = await Student.findOne({userId: req.params.user_id});
+        
         if (!student) {
             res.status(404).send({ message: 'Students not found!' })
         }
