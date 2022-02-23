@@ -26,8 +26,20 @@ module.exports.getVisitorsById = async (req, res) => {
     }
 }
 
-module.exports.createVisitors = async (req, res) => {
+module.exports.getVisitorsById = async (req, res) => {
+    try {
+        const applied = await Visitors.findById(req.params._id)
+            .populate({path: 'studentsApplied', select: 'userId fullName email'});
+            if (!applied) {
+                res.status(404).send({ message: 'No students applied!' })
+            }
+            res.status(200).send({ success: true, applied });
+    } catch (error) {
+        res.status(500).send({ success: false, message: 'Internal Error...' })
+    }
+}
 
+module.exports.createVisitors = async (req, res) => {
     try {
         const visitor = await Visitors.create(req.body)
         res.status(201).send({ success: true, visitor })
@@ -39,10 +51,12 @@ module.exports.createVisitors = async (req, res) => {
 }
 
 module.exports.updateVisitors = async (req, res) => {
+
     try {
-        const visitors = await Visitors.findByIdAndUpdate(req.body)
+        const visitors = await Visitors.findByIdAndUpdate(req.params._id, req.body)
         res.status(201).send({ success: true, visitors })
     } catch (error) {
+        console.log(error)
         res.status(500).send({ success: false, message: 'Internal Error...' })
     }
 }

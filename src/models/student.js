@@ -11,6 +11,9 @@ const Student = new Schema({
         type: String,
         required: true,
     },
+    gender: {
+        type: String
+    }, 
     rollno: {
         type: String
     },
@@ -19,6 +22,9 @@ const Student = new Schema({
     },
     semester: {
         type: Number
+    },
+    degree: {
+        type: String
     },
     graduationYear: {
         type: Number
@@ -37,6 +43,9 @@ const Student = new Schema({
         type: Number
     },
     picture: {
+        type: String
+    },
+    address: {
         type: String
     },
     github: {
@@ -100,18 +109,18 @@ const Student = new Schema({
             startDate: Date,
             endDate: Date
         }
-    ]
-    // savedVisitors: {
-    //     type: [mongoose.Types.ObjectId],
-    //     ref: "Visitors",
-    //     default: []
-    // },
-    // appliedVisitors:
-    // {
-    //     type: [mongoose.Types.ObjectId],
-    //     ref: "Visitors",
-    //     default: []
-    // }
+    ],
+    savedVisitors: {
+        type: [mongoose.Types.ObjectId],
+        ref: "Visitors",
+        default: []
+    },
+    appliedVisitors:
+    {
+        type: [mongoose.Types.ObjectId],
+        ref: "Visitors",
+        default: []
+    }
 });
 
 module.exports = mongoose.model('Student', Student);

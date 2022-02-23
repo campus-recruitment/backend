@@ -44,7 +44,7 @@ module.exports.createStudent = async (req, res) => {
 
 module.exports.updateStudent = async (req, res) => {
     try {
-        const student = await Student.findByIdAndUpdate(req.body)
+        const student = await Student.findOneAndUpdate({userId: req.params.user_id}, req.body)
         res.status(201).send({ success: true, student })
     } catch (error) {
         res.status(500).send({ success: false, message: 'Internal Error...' })

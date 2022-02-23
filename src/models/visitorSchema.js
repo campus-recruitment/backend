@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const Visitors = new Schema({
     
-    companyNane: {
+    companyName: {
         type: String,
         required: true,
     },
@@ -18,7 +18,7 @@ const Visitors = new Schema({
         type: [String]
     },
     description: {
-        type: String
+        type: [String]
     },
     location: {
         type: String,
@@ -44,14 +44,16 @@ const Visitors = new Schema({
     fullTime: {
         type: Boolean
     },
-    noOfAppliedJobs: {
-        type: Number
-    },
+    studentsApplied: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Student"
+    }],
     hiringProcess: {
         type: [String]
     },
     dueDate: {
-        type : Date
+        type : Date,
+        default: new Date()
     }
 })
 
