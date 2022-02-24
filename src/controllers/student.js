@@ -3,7 +3,9 @@ const Student = require('../models/student');
 
 module.exports.getAllStudents = async (req, res) => {
     try {
-        const students = await Student.find();
+        const students = await Student.find()
+            .populate({ path: 'appliedVisitors', select: '_id companyName positionName packages' })
+            .populate({ path: 'savedVisitors', select: '_id companyName positionName packages' })
         if (!students) {
             res.status(404).send({ message: 'Students not found!' })
         }
@@ -16,8 +18,10 @@ module.exports.getAllStudents = async (req, res) => {
 
 module.exports.getStudentsById = async (req, res) => {
     try {
-        const student = await Student.findOne({userId: req.params.user_id});
-        
+        const student = await Student.findOne({ userId: req.params.user_id })
+            .populate({ path: 'appliedVisitors', select: '_id companyName positionName packages' })
+            .populate({ path: 'savedVisitors', select: '_id companyName positionName packages' })
+
         if (!student) {
             res.status(404).send({ message: 'Students not found!' })
         }
@@ -36,7 +40,7 @@ module.exports.createStudent = async (req, res) => {
         })
         res.status(201).send({ success: true, student })
     } catch (error) {
-        if(error.code === 11000) res.status(409).send({success: false ,message: 'student already exist'})
+        if (error.code === 11000) res.status(409).send({ success: false, message: 'student already exist' })
         console.log(error.code)
         res.status(500).send({ success: false, message: 'Internal Error...' })
     }
@@ -44,7 +48,7 @@ module.exports.createStudent = async (req, res) => {
 
 module.exports.updateStudent = async (req, res) => {
     try {
-        const student = await Student.findOneAndUpdate({userId: req.params.user_id}, req.body)
+        const student = await Student.findOneAndUpdate({ userId: req.params.user_id }, req.body)
         res.status(201).send({ success: true, student })
     } catch (error) {
         res.status(500).send({ success: false, message: 'Internal Error...' })

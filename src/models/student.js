@@ -110,17 +110,14 @@ const Student = new Schema({
             endDate: Date
         }
     ],
-    savedVisitors: {
-        type: [mongoose.Types.ObjectId],
-        ref: "Visitors",
-        default: []
-    },
-    appliedVisitors:
-    {
-        type: [mongoose.Types.ObjectId],
-        ref: "Visitors",
-        default: []
-    }
+    savedVisitors: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Visitors"
+    }],
+    appliedVisitors: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Visitors"
+    }]
 });
 
 module.exports = mongoose.model('Student', Student);

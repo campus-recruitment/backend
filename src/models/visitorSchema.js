@@ -12,7 +12,7 @@ const Visitors = new Schema({
     },
     dateAdded: {
         type: Date,
-        default: new Date()
+        default: Date.now()
     },
     skillsRequired: {
         type: [String]
@@ -44,17 +44,21 @@ const Visitors = new Schema({
     fullTime: {
         type: Boolean
     },
-    studentsApplied: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Student"
-    }],
     hiringProcess: {
         type: [String]
     },
     dueDate: {
         type : Date,
-        default: new Date()
-    }
+        default: Date.now()
+    },
+    studentsApplied: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Student"
+    }],
+    selectedStudents: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Student"
+    }]
 })
 
 module.exports = mongoose.model('Visitors', Visitors);

@@ -8,15 +8,19 @@ const Notice = mongoose.model('Notice',
         },
         date: {
             type: Date,
-            default: new Date()
+            default: Date.now()
         },
         description: {
             type: String,
             default: ""
         },
-        authorites: {
+        authorityName: {
             type: String,
             default: ""
+        },
+        authorityPosition: {
+            type: String,
+            defalut: ""
         }
     });
 

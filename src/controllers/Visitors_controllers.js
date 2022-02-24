@@ -13,23 +13,24 @@ module.exports.getAllVisitors = async (req, res) => {
     }
 }
 
-module.exports.getVisitorsById = async (req, res) => {
-    try {
-        const visitor = await Visitors.findById(req.params._id);
-        if (!visitor) {
-            res.status(404).send({ message: 'Visitor not found!' })
-        }
-        res.status(200).send({ success: true, visitor });
+// module.exports.getVisitorsById = async (req, res) => {
+//     try {
+//         const visitor = await Visitors.findById(req.params._id);
+//         if (!visitor) {
+//             res.status(404).send({ message: 'Visitor not found!' })
+//         }
+//         res.status(200).send({ success: true, visitor });
 
-    } catch (error) {
-        res.status(500).send({ success: false, message: 'Internal Error...' })
-    }
-}
+//     } catch (error) {
+//         res.status(500).send({ success: false, message: 'Internal Error...' })
+//     }
+// }
 
 module.exports.getVisitorsById = async (req, res) => {
     try {
         const applied = await Visitors.findById(req.params._id)
-            .populate({path: 'studentsApplied', select: 'userId fullName email'});
+            .populate({path: 'studentsApplied', select: 'userId fullName email'})
+            .populate({path: 'selectedStudents', select: 'userId fullName email'})
             if (!applied) {
                 res.status(404).send({ message: 'No students applied!' })
             }
