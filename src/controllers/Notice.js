@@ -17,7 +17,7 @@ module.exports.getAllNotices = async (req, res) => {
 
 module.exports.getNoticesById = async (req, res) => {
     try {
-        const notice = await Notice.findOne(req.params._id)
+        const notice = await Notice.findById(req.params._id)
 
         if (!notice) {
             res.status(404).send({ message: 'notice not found!' })
@@ -52,6 +52,15 @@ module.exports.updateNotice = async (req, res) => {
 module.exports.deleteNotice = async (req, res) => {
     try {
         const notice = await Notice.findByIdAndDelete(req.params._id)
+        res.status(201).send({ success: true, notice })
+    } catch (error) {
+        res.status(500).send({ success: false, message: 'Internal Error...' })
+    }
+}
+
+module.exports.getNoticesByDate = async (req, res) => {
+    try {
+        const notice = await Notice.find({date: req.params.date})
         res.status(201).send({ success: true, notice })
     } catch (error) {
         res.status(500).send({ success: false, message: 'Internal Error...' })

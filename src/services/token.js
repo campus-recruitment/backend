@@ -10,7 +10,8 @@ function sign(user) {
         jwtSign({
             given_name: user.fullName,
             email: user.email,
-            user_id: user.userId
+            user_id: user.userId,
+            admin: user.isAdmin
         }, JWT_SECRET, {
             issuer: 'T&P Cell',
             audience: 'Frontend',

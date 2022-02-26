@@ -63,3 +63,19 @@ module.exports.deleteStudent = async (req, res) => {
         res.status(500).send({ success: false, message: 'Internal Error...' })
     }
 }
+
+module.exports.getStudentsByDepartment = async (req, res) => {
+    try {
+        const student = await Student.find({ departmentCode: req.params.departmentCode })
+            .populate({ path: 'appliedVisitors', select: '_id companyName positionName packages' })
+            .populate({ path: 'savedVisitors', select: '_id companyName positionName packages' })
+
+        if (!student) {
+            res.status(404).send({ message: 'Students not found!' })
+        }
+        res.status(200).send({ success: true, student });
+
+    } catch (error) {
+        res.status(500).send({ success: false, message: 'Internal Error...' })
+    }
+}

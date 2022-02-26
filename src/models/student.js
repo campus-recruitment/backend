@@ -20,6 +20,9 @@ const Student = new Schema({
     department: {
         type: String
     },
+    departmentCode: {
+        type: String
+    },
     semester: {
         type: Number
     },
@@ -36,7 +39,7 @@ const Student = new Schema({
         index: true
     },
     isAdmin: {
-        Type: Boolean,
+        type: Boolean,
         default: false
     },
     phoneNumber: {
