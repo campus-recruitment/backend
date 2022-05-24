@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const Visitors = new Schema({
-    
+
     companyName: {
         type: String,
         required: true,
@@ -48,10 +48,14 @@ const Visitors = new Schema({
         type: [String]
     },
     dueDate: {
-        type : Date,
+        type: Date,
         default: Date.now()
     },
     studentsApplied: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Student"
+    }],
+    studentsSaved: [{ 
         type: mongoose.Schema.Types.ObjectId,
         ref: "Student"
     }],

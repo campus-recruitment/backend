@@ -1,3 +1,4 @@
+const { BSONType, ObjectId } = require('mongodb');
 const Visitors = require('../models/visitorSchema');
 
 module.exports.getAllVisitors = async (req, res) => {
@@ -56,6 +57,27 @@ module.exports.updateVisitors = async (req, res) => {
     try {
         const visitors = await Visitors.findByIdAndUpdate(req.params._id, req.body)
         res.status(201).send({ success: true, visitors })
+    } catch (error) {
+        console.log(error)
+        res.status(500).send({ success: false, message: 'Internal Error...' })
+    }
+}
+
+module.exports.updateAppliedStudents = async (req, res) => {
+    try {
+        const visitor = await Visitors.findByIdAndUpdate(req.body.appliedVisitors, { $push: { studentsApplied: ObjectId(req.body._id) }});
+        res.status(201).send({ success: true, visitor }) 
+    } catch (error) {
+        console.log(error)
+        res.status(500).send({ success: false, message: 'Internal Error...' })
+    }
+}
+
+module.exports.updateSavedStudents = async (req, res) => {
+    try {
+        console.log(req.body.savedVisitors);
+        const visitor = await Visitors.findByIdAndUpdate(req.body.savedVisitors, { $push: { studentsSaved: ObjectId(req.body._id) }});
+        res.status(201).send({ success: true, visitor }) 
     } catch (error) {
         console.log(error)
         res.status(500).send({ success: false, message: 'Internal Error...' })
