@@ -67,28 +67,40 @@ module.exports.login = async (req, res) => {
     }
 }
 
+// module.exports.resetPassword = async (req, res) => {
+//     try {
+//         const token = randomBytes(32).toString('hex');
+//         User.findOne({email: req.body.email})
+//             .then(user => {
+//                 if(!user) return res.status(404).send({success: false, message: 'User not registerd..'})
+//                 user.resetToken = token
+//                 user.expireToken = Date.now() + (60 * 60 * 1000)
+//                 user.save().then(result => {
+//                     console.log(user)
+//                     transporter.sendMail({
+//                         to: user.email,
+//                         from: "kitsrecruitment1@gmail.com",
+//                         subject: "Reset Password",
+//                         html: `<p>You requested for password reset</p>
+//                         <h5>Click on this <a href="http://localhost:3000/reset-password/${token}"> link </a> to reset password.</h5>`
+//                     }).then(() => console.log('email send...'))
+//                     return res.status(201).send({success: true, message: 'Check your email!!'})
+//                 })
+//             })
+
+//     } catch (error) {
+//         console.log(error)
+//     }
+// }
+
 module.exports.resetPassword = async (req, res) => {
     try {
-        const token = randomBytes(32).toString('hex');
-        User.findOne({email: req.body.email})
-            .then(user => {
-                if(!user) return res.status(404).send({success: false, message: 'User not registerd..'})
-                user.resetToken = token
-                user.expireToken = Date.now() + (60 * 60 * 1000)
-                user.save().then(result => {
-                    console.log(user)
-                    transporter.sendMail({
-                        to: user.email,
-                        from: "kitsrecruitment1@gmail.com",
-                        subject: "Reset Password",
-                        html: `<p>You requested for password reset</p>
-                        <h5>Click on this <a href="http://localhost:3000/reset-password/${token}"> link </a> to reset password.</h5>`
-                    }).then(() => console.log('email send...'))
-                    return res.status(201).send({success: true, message: 'Check your email!!'})
-                })
-            })
-        
+        const { email, password } = req.body;
+        if (!email && !password) return res.status(400).send({ success: false, message: 'Email or password not provided' })
+        const hash = await hashPassword(password);
+        const user = await User.findOneAndUpdate({ email }, { password: hash })
+        return res.status(201).send({ success: true, message: 'Password Changed!' })
     } catch (error) {
-        console.log(error)
+        return res.status(500).send({ success: false, message: 'Internal server error' })
     }
 }
