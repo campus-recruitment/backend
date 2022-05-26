@@ -75,8 +75,19 @@ module.exports.updateAppliedStudents = async (req, res) => {
 
 module.exports.updateSavedStudents = async (req, res) => {
     try {
-        console.log(req.body.savedVisitors);
+        // console.log(req.body.savedVisitors);
         const visitor = await Visitors.findByIdAndUpdate(req.body.savedVisitors, { $push: { studentsSaved: ObjectId(req.body._id) }});
+        res.status(201).send({ success: true, visitor }) 
+    } catch (error) {
+        console.log(error)
+        res.status(500).send({ success: false, message: 'Internal Error...' })
+    }
+}
+
+module.exports.removeSavedStudents = async (req, res) => {
+    try {
+        // console.log(req.body.savedVisitors);
+        const visitor = await Visitors.findByIdAndUpdate(req.body.savedVisitors, { $pull: { studentsSaved: ObjectId(req.body._id) }});
         res.status(201).send({ success: true, visitor }) 
     } catch (error) {
         console.log(error)

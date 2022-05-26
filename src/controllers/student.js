@@ -2,12 +2,13 @@
 const Student = require('../models/student');
 const { updateAppliedStudents } = require('./Visitors_controllers');
 const { updateSavedStudents } = require('./Visitors_controllers');
+const { removeSavedStudents } = require('./Visitors_controllers');
 
 module.exports.getAllStudents = async (req, res) => {
     try {
         const students = await Student.find()
-            .populate({ path: 'appliedVisitors', select: '_id companyName positionName packages' })
-            .populate({ path: 'savedVisitors', select: '_id companyName positionName packages' })
+            .populate({ path: 'appliedVisitors', select: '_id companyName positionName packages vacancies dueDate' })
+            .populate({ path: 'savedVisitors', select: '_id companyName positionName packages vacancies dueDate' })
         if (!students) {
             res.status(404).send({ message: 'Students not found!' })
         }
@@ -21,8 +22,8 @@ module.exports.getAllStudents = async (req, res) => {
 module.exports.getStudentsById = async (req, res) => {
     try {
         const student = await Student.findOne({ userId: req.params.user_id })
-            .populate({ path: 'appliedVisitors', select: '_id companyName positionName packages' })
-            .populate({ path: 'savedVisitors', select: '_id companyName positionName packages' })
+            .populate({ path: 'appliedVisitors', select: '_id companyName positionName packages vacancies dueDate' })
+            .populate({ path: 'savedVisitors', select: '_id companyName positionName packages vacancies dueDate' })
 
         if (!student) {
             res.status(404).send({ message: 'Students not found!' })
@@ -74,6 +75,19 @@ module.exports.updateSavedVisitor = async (req, res) => {
         // console.log(req.body.savedVisitors)
         const student = await Student.findOneAndUpdate({ userId: req.params.user_id }, { $push: {savedVisitors: req.body.savedVisitors} })
         const visitors = await updateSavedStudents(req, res)
+        // res.status(201).send({ success: true, student })
+    } catch (error) {
+        // res.status(500).send({ success: false, message: 'Internal Error...' })
+    }
+}
+
+module.exports.removeSavedVisitor = async (req, res) => {
+    try {
+        console.log(req.body.savedVisitors)
+        // console.log(req.params.user_id)
+        const student = await Student.findOneAndUpdate({ userId: req.params.user_id }, { $pull: {savedVisitors: req.body.savedVisitors} })
+        console.log(student);
+        const visitors = await removeSavedStudents(req, res)
         // res.status(201).send({ success: true, student })
     } catch (error) {
         // res.status(500).send({ success: false, message: 'Internal Error...' })
