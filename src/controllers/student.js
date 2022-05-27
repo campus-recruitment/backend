@@ -27,6 +27,7 @@ module.exports.getStudentsById = async (req, res) => {
         const student = await Student.findOne({ userId: req.params.user_id })
             .populate({ path: 'appliedVisitors', select: '_id companyName positionName packages vacancies dueDate' })
             .populate({ path: 'savedVisitors', select: '_id companyName positionName packages vacancies dueDate' })
+            .populate({ path: 'selectedVisitors', select: '_id companyName positionName packages vacancies dueDate' })
 
         if (!student) {
             res.status(404).send({ message: 'Students not found!' })
@@ -50,7 +51,7 @@ module.exports.updateStudent = async (req, res) => {
 
 module.exports.updateAppliedVisitor = async (req, res) => {
     try {
-        const student = await Student.findOneAndUpdate({ userId: req.params.user_id }, { $push: {appliedVisitors: req.body.appliedVisitors} })
+        const student = await Student.findOneAndUpdate({ userId: req.params.user_id }, { $push: { appliedVisitors: req.body.appliedVisitors } })
         const visitors = await updateAppliedStudents(req, res)
     } catch (error) {
         // res.status(500).send({ success: false, message: 'Internal Error...' })
@@ -60,7 +61,7 @@ module.exports.updateAppliedVisitor = async (req, res) => {
 module.exports.updateSavedVisitor = async (req, res) => {
     try {
         // console.log(req.body.savedVisitors)
-        const student = await Student.findOneAndUpdate({ userId: req.params.user_id }, { $push: {savedVisitors: req.body.savedVisitors} })
+        const student = await Student.findOneAndUpdate({ userId: req.params.user_id }, { $push: { savedVisitors: req.body.savedVisitors } })
         const visitors = await updateSavedStudents(req, res)
         // res.status(201).send({ success: true, student })
     } catch (error) {
@@ -70,7 +71,7 @@ module.exports.updateSavedVisitor = async (req, res) => {
 
 module.exports.removeSavedVisitor = async (req, res) => {
     try {
-        const student = await Student.findOneAndUpdate({ userId: req.params.user_id }, { $pull: {savedVisitors: req.body.savedVisitors} })
+        const student = await Student.findOneAndUpdate({ userId: req.params.user_id }, { $pull: { savedVisitors: req.body.savedVisitors } })
         const visitors = await removeSavedStudents(req, res)
     } catch (error) {
         // res.status(500).send({ success: false, message: 'Internal Error...' })
@@ -79,7 +80,7 @@ module.exports.removeSavedVisitor = async (req, res) => {
 
 module.exports.updateSelectedVisitor = async (req, res) => {
     try {
-        const student = await Student.findOneAndUpdate({ userId: req.params.user_id }, { $push: {selectedVisitors: req.body.selectedVisitors} })
+        const student = await Student.findOneAndUpdate({ userId: req.params.user_id }, { $push: { selectedVisitors: req.body.selectedVisitors } })
         const visitors = await updateSelectedStudents(req, res)
     } catch (error) {
         // res.status(500).send({ success: false, message: 'Internal Error...' })
@@ -88,7 +89,7 @@ module.exports.updateSelectedVisitor = async (req, res) => {
 
 module.exports.removeSelectedVisitor = async (req, res) => {
     try {
-        const student = await Student.findOneAndUpdate({ userId: req.params.user_id }, { $pull: {selectedVisitors: req.body.selectedVisitors} })
+        const student = await Student.findOneAndUpdate({ userId: req.params.user_id }, { $pull: { selectedVisitors: req.body.selectedVisitors } })
         const visitors = await removeSelectedStudents(req, res)
     } catch (error) {
         // res.status(500).send({ success: false, message: 'Internal Error...' })
@@ -107,8 +108,27 @@ module.exports.deleteStudent = async (req, res) => {
 module.exports.getStudentsByDepartment = async (req, res) => {
     try {
         const student = await Student.find({ departmentCode: req.params.departmentCode })
-            .populate({ path: 'appliedVisitors', select: '_id companyName positionName packages' })
-            .populate({ path: 'savedVisitors', select: '_id companyName positionName packages' })
+            .populate({ path: 'appliedVisitors', select: '_id companyName positionName packages vacancies dueDate' })
+            .populate({ path: 'savedVisitors', select: '_id companyName positionName packages vacancies dueDate' })
+            .populate({ path: 'selectedVisitors', select: '_id companyName positionName packages vacancies dueDate' })
+
+        if (!student) {
+            res.status(404).send({ message: 'Students not found!' })
+        }
+        res.status(200).send({ success: true, student });
+
+    } catch (error) {
+        res.status(500).send({ success: false, message: 'Internal Error...' })
+    }
+}
+
+module.exports.getStudentsByYear = async (req, res) => {
+    try {
+        console.log(req.params.graduationYear)
+        const student = await Student.find({ graduationYear: req.params.graduationYear })
+            .populate({ path: 'appliedVisitors', select: '_id companyName positionName packages vacancies dueDate' })
+            .populate({ path: 'savedVisitors', select: '_id companyName positionName packages vacancies dueDate' })
+            .populate({ path: 'selectedVisitors', select: '_id companyName positionName packages vacancies dueDate' })
 
         if (!student) {
             res.status(404).send({ message: 'Students not found!' })
