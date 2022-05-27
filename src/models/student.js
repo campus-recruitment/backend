@@ -120,6 +120,10 @@ const Student = new Schema({
     appliedVisitors: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "Visitors"
+    }],
+    selectedVisitors: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Visitors"
     }]
 });
 

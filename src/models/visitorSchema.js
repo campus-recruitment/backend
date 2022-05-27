@@ -15,10 +15,10 @@ const Visitors = new Schema({
         default: Date.now()
     },
     skillsRequired: {
-        type: [String]
+        type: String
     },
     description: {
-        type: [String]
+        type: String
     },
     location: {
         type: String,
