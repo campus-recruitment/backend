@@ -95,7 +95,7 @@ module.exports.updateSelectedStudents = async (req, res) => {
 
 module.exports.removeSelectedStudents = async (req, res) => {
     try {
-        const visitor = await Visitors.findByIdAndUpdate(req.body.SelectedVisitors, { $pull: { selectedStudents: ObjectId(req.body._id) } });
+        const visitor = await Visitors.findByIdAndUpdate(req.body.selectedVisitors, { $pull: { selectedStudents: ObjectId(req.body._id) } });
         res.status(201).send({ success: true, visitor })
     } catch (error) {
         console.log(error)

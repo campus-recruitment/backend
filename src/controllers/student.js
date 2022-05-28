@@ -89,7 +89,9 @@ module.exports.updateSelectedVisitor = async (req, res) => {
 
 module.exports.removeSelectedVisitor = async (req, res) => {
     try {
+        console.log('hello')
         const student = await Student.findOneAndUpdate({ userId: req.params.user_id }, { $pull: { selectedVisitors: req.body.selectedVisitors } })
+        console.log('hello again...')
         const visitors = await removeSelectedStudents(req, res)
     } catch (error) {
         // res.status(500).send({ success: false, message: 'Internal Error...' })

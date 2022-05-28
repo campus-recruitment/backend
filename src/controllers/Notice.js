@@ -3,7 +3,7 @@ const Notice = require('../models/notice');
 
 module.exports.getAllNotices = async (req, res) => {
     try {
-        const notices = await Notice.find()
+        const notices = await Notice.find().sort({date: -1})
         if (!notices) {
             res.status(404).send({ message: 'Notices not found!' })
         }
